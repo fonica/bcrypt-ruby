@@ -66,6 +66,10 @@ describe "Generating BCrypt hashes" do
     expect(BCrypt::Engine.hash_secret(false, @salt)).to eq BCrypt::Engine.hash_secret("false", @salt)
   end
 
+  specify "should work with different encodings" do
+    expect(BCrypt::Engine.hash_secret("\xff\xff\xa3".force_encoding('ISO-8859-1'), "$2x$05$/OK.fbVrR/bpIqNJ5ianF.")).to eq "$2x$05$/OK.fbVrR/bpIqNJ5ianF.CE5elHaaO4EbggVDjb8P19RukzXSM3e"
+  end
+
   specify "should be interoperable with other implementations" do
     test_vectors = [
       # test vectors from the OpenWall implementation <https://www.openwall.com/crypt/>, found in wrapper.c
